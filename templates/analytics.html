@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Expense Analytics</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+    <h1>📊 Expense Analytics</h1>
+
+
+    <div class="container">
+
+        <h2>Category Summary</h2>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Category</th>
+                    <th>Total Amount</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in summary %}
+
+                <tr>
+
+                    <td>
+                        {{ item["category"] }}
+                    </td>
+
+                    <td>
+                        ₹{{ item["amount"] }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+
+        <br>
+
+
+        <h2>Expense Distribution</h2>
+
+
+        <div style="max-width: 500px; margin: auto;">
+
+            <canvas id="expensesChart"></canvas>
+
+        </div>
+
+
+        <br>
+
+
+        <a href="/">
+            <button type="button">🏠 Home</button>
+        </a>
+
+    </div>
+
+
+    <!-- Flask data -->
+
+    <script id="expense-data" type="application/json">
+        {{ summary | tojson }}
+    </script>
+
+
+    <!-- Chart JavaScript -->
+
+    <script>
+
+        const expenseData =
+            JSON.parse(
+                document.getElementById("expense-data").textContent
+            );
+
+
+        const categories =
+            expenseData.map(
+                item => item.category
+            );
+
+
+        const amounts =
+            expenseData.map(
+                item => item.amount
+            );
+
+
+        const ctx =
+            document.getElementById("expensesChart");
+
+
+        if (ctx && categories.length > 0) {
+
+            new Chart(ctx, {
+
+                type: "pie",
+
+                data: {
+
+                    labels: categories,
+
+                    datasets: [{
+
+                        label: "Expenses",
+
+                        data: amounts
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true
+
+                }
+
+            });
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Expense</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Edit Expense</h1>
+    <form method="POST">
+        <label>Amount:</label>
+        <input 
+        type="text"
+        name="amount"
+        step="0.01"
+        min="0.01"
+        value=""{{expense['amount']}}
+        required>
+        <br><br>
+        <label>Category:</label>
+        <select name="category">
+            <option{% if expense['category']=='Food' %}selected{% endif %}>Food</option>
+            <option{% if expense['category']=='Travel' %}selected{% endif %}>Travel</option>
+            <option{% if expense['category']=='Shopping' %}selected{% endif %}>Shopping</option>
+            <option{% if expense['category']=='Bills' %}selected{% endif %}>Bills</option>
+            <option{% if expense['category']=='Entertainment' %}selected{% endif %}>Entertainment</option>
+            <option{% if expense['category']=='Other' %}selected{% endif %}>Other</option>
+        </select>
+        <br><br>
+        <label>Description:</label>
+        <input
+        type="text"
+        name="description"
+        value="{{expense['description']}}"
+        required>
+        <br><br>
+        <button type="submit">Update Expense</button>
+    </form>
+    <br>
+    <a href="/expenses">
+        <button>Back</button>
+    </a>
+</body>
+</html>

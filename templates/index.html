@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Expense Tracker</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Daily Expense Tracker</h1>
+    <div class="container">
+        <h2>Dashboard</h2>
+        <div class=""cards">
+            <div class="card">
+                <h3>total Expenses</h3>
+                <p>{{total}}</p>
+            </div>
+            <div class="card">
+                <h3>Number of Expenses</h3>
+                <p>{{count}}</p>
+            </div>
+        </div>
+        <h2>Budget Infromation</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>Monthly Budget</h3>
+                <p>{{budget}}</p>
+            </div>
+            <h2>Category Spending</h2>
+            <div class="cards">
+                {% for category,amount in category_totals.items()%}
+                <div class="card">
+                    <h3>{{category}}</h3>
+                    <p>{{amount}}</p>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="card">
+                <h3>Amount spent</h3>
+                <p>{{total}}</p>
+            </div>
+            <div class="cards">
+                <h3>Remaining</h3>
+                <p>{{remaining}}</p>
+            </div>
+        </div>
+        {% if budget>0 and remaining<0 %}
+            <div class="warning">
+                You have exceeded your budget!
+            </div>
+       {% elif budget>0 and remaining <= budget*0.2%}
+            <div class="warning">
+                You have used 80% or more of your budget.
+            </div>
+        {%endif%}
+        <div class="buttons">
+            <a href="/add_expense">
+                <button>Add Expense</button>
+            </a>
+            <a href="/expenses">
+                <button>View Expenses</button>
+            </a>
+            <a href="/budget">
+                <button>Budget</button>
+            </a>
+            <a href="/analytics">
+                <button>Analytics</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
